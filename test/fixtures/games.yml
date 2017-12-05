@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+game_1:
+  player: user_1
+  opponent: user_2
+  played_at: 2017-02-15
+  player_score: 1
+  opponent_score: 1
+
+game_2:
+  player: user_2
+  opponent: user_1
+  played_at: 2017-02-15
+  player_score: 1
+  opponent_score: 1
