@@ -20,4 +20,7 @@ module GamesHelper
       HTML
     end
   end
+  def result_text(game)
+    game.won? ? 'Won' : 'Lost'
+  end
 end

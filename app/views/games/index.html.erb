@@ -1,31 +1,22 @@
-<p id="notice"><%= notice %></p>
+<h1 class='page-header'>History</h1>
 
-<h1>Listing Games</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Played at</th>
-      <th>Player score</th>
-      <th>Opponent score</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @games.each do |game| %>
-      <tr>
-        <td><%= game.played_at %></td>
-        <td><%= game.player_score %></td>
-        <td><%= game.opponent_score %></td>
-        <td><%= link_to 'Show', game %></td>
-        <td><%= link_to 'Edit', edit_game_path(game) %></td>
-        <td><%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Game', new_game_path %>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <th>Date</th>
+      <th>Opponent</th>
+      <th>Score</th>
+      <th>Result</th>
+    </thead>
+    <tbody>
+      <% @games.each do |game| %>
+        <tr>
+          <td><%= game.played_at %></td>
+          <td><%= game.opponent.email %></td>
+          <td><%= game.score %></td>
+          <td><%= result_text(game) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<div>

@@ -7,4 +7,16 @@ class Game < ActiveRecord::Base
   validates :player, :opponent, :played_at, :player_score, :opponent_score, presence: true
   validates_with ScoreValidator, fields: [:player_score, :opponent_score]
   validates :player_score, :opponent_score, numericality: { only_integer: true, less_than: 22 }
+
+  def self.played_by(user_id)
+    where(%{player_id = :id OR opponent_id = :id}, id: user_id)
+  end
+
+  def score
+    "#{player_score} - #{opponent_score}"
+  end
+
+  def won?
+    (opponent_score < player_score)
+  end
 end
