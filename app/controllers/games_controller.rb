@@ -3,7 +3,7 @@ class GamesController < ApplicationController
 
   # GET /games
   def index
-    @games = Game.all
+    @games = Game.includes(:opponent, :player).played_by(current_user.id).order(played_at: :desc)
   end
 
   # GET /games/1
@@ -12,7 +12,7 @@ class GamesController < ApplicationController
 
   # GET /games/new
   def new
-    @game = Game.new
+    @game = Game.new(played_at: Time.zone.now.to_date)
   end
 
   # GET /games/1/edit
@@ -22,6 +22,7 @@ class GamesController < ApplicationController
   # POST /games
   def create
     @game = Game.new(game_params)
+    @game.player = current_user
 
     if @game.save
       redirect_to @game, notice: 'Game was successfully created.'
@@ -53,6 +54,14 @@ class GamesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def game_params
-      params.require(:game).permit(:played_at, :player_score, :opponent_score)
+      params.require(:game)
+      .permit(:player_id, :opponent_id, :played_at, :player_score, :opponent_score)
+      .merge!(played_at: played_at)
+    end
+
+    def played_at
+      if (played_at = params[:played_at])
+        Date.civil(played_at[:year].to_i, played_at[:month].to_i, played_at[:day].to_i)
+      end
     end
 end
